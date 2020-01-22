@@ -1,0 +1,167 @@
+{% extends "unitourguide/index.html" %}
+
+<!-- CSS  -->
+{% block additional_css %}
+{% load static %}
+<link href="{% static 'unitourguide/css/find_guide.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block title %} Manage Guide {% endblock %}
+
+{% block content %}
+
+<h4 class="red-text text-accent-2">Current Applications</h4>
+<ul class="collapsible" data-collapsible="expandable">
+    {% for app in applications %}
+    <li>
+        {% if forloop.counter == 1%}
+        <div class="collapsible-header active">
+            {% else %}
+            <div class="collapsible-header">
+                {% endif %}
+
+                <div class="row">
+                    <i class="large material-icons">assignment_ind</i>
+                    <div class="col s3">Application Number: {{app.id}}</div>
+                    <div class="col s3">Name: {{app.user.first_name}} {{app.user.last_name}}</div>
+                    <div class="col s5">Uni: {{app.school.name}}</div>
+                </div>
+            </div>
+            <ul class="collapsible-body">
+                <div class="row">
+                    <div class="col s6">
+                        <li class="card_content_title">Student ID: </li>
+                        <li> {{app.user.username}}</li>
+                        <li class="card_content_title">Email: </li>
+                        <li> {{app.user.email}}</li>
+                        <li class="card_content_title">ID card: </li>
+                        <li>
+                            <img src="{{app.document.url}}" alt="idcard" height="200">
+                        </li>
+
+                    </div>
+                    {% if not app.school.display %}
+                    <div class="col s6">
+                        <li class="card_content_title">Uni City & State: </li>
+                        <li> {{app.school.city}}, {{app.school.state}}</li>
+                        <li class="card_content_title">Uni Description: </li>
+                        <li> {{app.school.description}}</li>
+                        <li class="card_content_title">Uni Picture: </li>
+                        <li>
+                            <img src="{{app.school.picture.url}}" alt="uni_pic" height="200">
+                        </li>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+
+
+                    <div class="col s6 offset-s6">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if not app.school.display %}
+                            <li>
+                                <div class="row">
+                                    <div class="input-field col s5">
+                                        <input name="latitude" id="latitude" type="number" step="any" min="-90" max="90"
+                                            class="validate">
+                                        <label for="latitude">Latitude</label>
+                                    </div>
+                                    <div class="input-field col s5">
+                                        <input name="longitude" id="longitude" type="number" step="any" min="-180"
+                                            max="180" class="validate">
+                                        <label for="longitude">Longitude</label>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+
+                            <li>
+                                <div class="row">
+                                    <div class="col s6">
+                                        <button class="btn waves-effect waves-light" type="submit" name="deny"
+                                            value="{{app.id}}">Deny
+                                            <i class="material-icons right">cancel</i>
+                                        </button>
+                                    </div>
+                                    <div class="col s6">
+                                        <button class="btn waves-effect waves-light" type="submit" name="approve"
+                                            value="{{app.id}}">Approve
+                                            <i class="material-icons right">done</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="alarm">{{ message }}</p>
+                            </li>
+
+
+                        </form>
+                    </div>
+                </div>
+
+
+
+            </ul>
+    </li>
+    {% endfor %}
+
+</ul>
+
+<h4 class="red-text text-accent-2">Exsiting Guides</h4>
+
+<ul class="collapsible" data-collapsible="expandable">
+    {% for guide in guides %}
+    <li>
+        {% if forloop.counter == 1%}
+        <div class="collapsible-header active">
+            {% else %}
+            <div class="collapsible-header">
+                {% endif %}
+
+                <div class="row">
+                    <i class="large material-icons">assignment_ind</i>
+                    <div class="col s3">Guide Number: {{guide.id}}</div>
+                    <div class="col s3">Name: {{guide.user.first_name}} {{guide.user.last_name}}</div>
+
+                    {% with guide.school_set.all|first as school %}
+                    <div class="col s5">Uni: {{school.name}}</div>
+                    {% endwith %}
+                </div>
+            </div>
+            <ul class="collapsible-body">
+                <li class="card_content_title">Student ID: </li>
+                <li> {{guide.user.username}}</li>
+                <li class="card_content_title">Email: </li>
+                <li> {{guide.user.email}}</li>
+                <li class="card_content_title">ID card: </li>
+                <li>
+                    <div class="col s6">
+                        <img src="{{guide.user.application.document.url}}" alt="idcard" height="200">
+                    </div>
+                </li>
+                <form method="POST">
+                    {% csrf_token %}
+                    <li>
+                        <div class="row">
+                            <div class="col s3 offset-s9">
+                                <button class="btn waves-effect waves-light" type="submit" name="delete_guide"
+                                    value="{{guide.id}}">Delete
+                                    <i class="material-icons right">cancel</i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </form>
+
+            </ul>
+    </li>
+    {% endfor %}
+
+</ul>
+
+
+
+
+{% endblock %}

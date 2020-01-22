@@ -1,0 +1,26 @@
+{% extends "unitourguide/index.html" %}
+{% block title %} Log in {% endblock %}
+{% block content %} 
+<div class="container">
+    <div class="row"><h4 class="red-text text-accent-2">Log in</h4></div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} <!-- csrf token for basic security -->
+        <div class="inputContainer">
+            <label for="username"><h5>User Name</h5></label>
+            <input type="text" id="username" class="username" value="username" name="username" required>
+            <label for="password"><h5>Password</h5></label>
+            <input type="password" id="password" class="password" value="password" name="password" required>
+            <p>{{ errormessage }}</p>
+        </div>
+        <div class="row">
+            <button name="login" type="submit" class="waves-effect waves-light btn"><i class="fa fa-plus icon"></i>Log in</button>
+            <div class="card-action">
+                <a href="/signup">Sign up click here</a>
+            </div>
+        </div>
+    </ul><!-- taskList -->
+    </form>
+</div>
+{% endblock %}
+
+        

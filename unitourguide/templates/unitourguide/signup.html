@@ -1,0 +1,19 @@
+{% extends "unitourguide/index.html" %}
+{% block title %} Sign up {% endblock %}
+{% block content %} 
+<div class="container">
+    <div class="row"><h4 class="red-text text-accent-2">Sign up</h4></div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} <!-- csrf token for basic security -->
+        <div class="inputContainer">
+            {{ form }}
+        </div>
+        <div class="row">
+            <button name="login" type="submit" class="waves-effect waves-light btn"><i class="fa fa-plus icon"></i>Sign Up</button>
+        </div>
+    </ul><!-- taskList -->
+    </form>
+</div>
+{% endblock %}
+
+        

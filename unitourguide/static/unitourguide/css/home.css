@@ -1,0 +1,27 @@
+nav {
+    color: #fff;
+    background-color: #4db6ac;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+}
+nav ul a {
+  transition: background-color .3s;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #4db6ac;
+  display: block;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+nav .nav-wrapper {
+    position: relative;
+    background-color: #4db6ac;
+    height: 100%;
+}
+
+.alarm {
+    color: crimson;
+    font-size: 20px;
+}

@@ -1,0 +1,27 @@
+{% extends "unitourguide/index.html" %}
+{% block title %} Write Review {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h4 class="red-text text-accent-2">Write Review</h4>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- csrf token for basic security -->
+        <div class="inputContainer">
+            {{ form }}
+        </div>
+        <div class="row">
+            
+            <button class="btn waves-effect waves-light" type="submit">Submit
+                <i class="material-icons right">send</i>
+            </button>
+
+        </div>
+        </ul><!-- taskList -->
+    </form>
+    <li><a href="{% url 'my_tour' %}">Back to My Tour</a></li>
+    
+    
+</div>
+{% endblock %}

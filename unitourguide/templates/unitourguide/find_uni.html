@@ -1,0 +1,87 @@
+{% extends "unitourguide/index.html" %}
+{% block title %} Find A Uni {% endblock %}
+
+
+
+{% block content %}
+
+<h4 class="red-text text-accent-2">Find A Uni</h4>
+
+<div class="row">
+    <div id="map" class="col s4"></div>
+    <div class="col s8">
+        <div class="row">
+            <form method="GET" action="{% url 'find_uni' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- csrf token for basic security -->
+                <div class="input-field col s4">
+                    <input name="search_name" placeholder="Search By Name" id="uni_name" type="text" class="validate">
+                    <label for="uni_name">Uni Name</label>
+                </div>
+                <div class="input-field col s1">
+                    <button type="submit" class="btn-floating" name="search_by_name"><i
+                            class="material-icons">search</i></button>
+                </div>
+            </form>
+            <form method="GET" action="{% url 'find_uni' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- csrf token for basic security -->
+                <div class="input-field col s3">
+                    <input type="text" name="city_select" placeholder="Enter City">
+                    <!-- <select name="city_select">
+                        <option value="" disabled selected>City</option>
+                        {% for school in schools %}
+                            <option value="{{ school.city }}">{{ school.city }}</option>
+                        {% endfor %}
+                    </select> -->
+                    <label>City</label>
+                </div>
+                <div class="input-field col s3">
+                    <select name="state_select">
+                        <option value="" disabled selected>State</option>
+                        {% for school in schools %}
+                        <option value="{{ school.state }}">{{ school.state }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>State</label>
+                </div>
+                <div class="input-field col s1">
+                    <button type="submit" class="btn-floating" name="filter_by_place"><i
+                            class="material-icons">cached</i></button>
+                </div>
+            </form>
+        </div>
+        <p>{{ errorMessage }}</p>
+        {% for school in schools %}
+        <input type="hidden"
+            value="{{ school.name }}#{{ school.latitude }}#{{ school.longitude }}#{{school.description}}#{% url 'find_guide' school.id %}"
+            name="school_positions">
+        <div class="col s12 m12">
+            <div class="card horizontal">
+                <div class="card-image">
+                    <img src="{{ school.picture.url }}" alt="{{ school.name }}">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5>{{ school.name }}</h5>
+                        <p>{{ school.description }}</p>
+                    </div>
+                    <form method="GET" action="{% url 'find_uni' %}" enctype="multipart/form-data">
+                        <input type="hidden" name="school_id" value="{{ school.id }}">
+                        <div class="card-action">
+                            <a href="{% url 'find_guide' school.id %}">View Guides</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCojYZatvm74vN7-UY_ZG5TMbaARTVihg&callback=initMap">
+    </script>
+{% endblock %}

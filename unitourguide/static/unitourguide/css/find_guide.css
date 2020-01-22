@@ -1,0 +1,15 @@
+li {
+    padding-left:10px;
+    
+}
+
+.card_content_title {
+    
+    padding-top:10px;
+    font-weight: 600;
+}
+
+.info {
+    color: rgb(34, 34, 37);
+    font: bold;
+}
